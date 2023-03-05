@@ -1,14 +1,14 @@
 <template>
     <div>
-        <form @submit.prevent="addTask">
-            <input type="text" v-model="newTask">
-            <button type="submit"> ADD TASK </button>
-        </form>
+			<form @submit.prevent="addTask">
+        <input type="text" v-model="newTask">
+        <button type="submit">Add task</button>
+      </form>
         <ul>
 			<li v-for="(task, index) in tasks" :key="index">
 				<p> {{ task }}</p>
-				<button class="red">Excluir</button>
-				<button class="green">Concluida</button>
+				<button class="red" @click="deleteTask(index)">Remover</button>
+				<button class="green" @click="deleteTask(index)">Concluida</button>
 			</li>
 		</ul>
     </div>	
@@ -17,18 +17,23 @@
 <script>
     export default {
         data() {
-            return {
-                tasks: [
-                    {}
-                ],
-                newTask: ''
-            }
+					return {
+						tasks: [],
+						newTask: 'Try adding this task to the list'
+					}
         },
         methods: {
-            addTask() {
-                this.tasks.push(newTask)
-            }
-        }
+					addTask() {
+						if(this.newTask.trim() != '') {
+							this.tasks.push(this.newTask);
+							this.newTask = '';
+						}
+						// exibir erro
+					},
+					deleteTask(index) {
+						this.tasks.splice(index, 1);
+					}
+       	}
     }
 </script>
   
