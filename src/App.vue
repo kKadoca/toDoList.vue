@@ -1,22 +1,19 @@
 <template>
 	<Header></Header>
 	<div class="content">
-		<Input></Input>
-		<Task></Task>
+		<ToDoList></ToDoList>
 	</div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
-import Input from './components/Input.vue'
-import Task from './components/Task.vue'
+import ToDoList from './components/ToDoList.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-		Input,
-		Task
+	ToDoList
   }
 }
 </script>
