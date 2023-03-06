@@ -27,6 +27,7 @@ export default {
 body {
 	height: 100vh;
 	width: 100%;
+	min-width: 400px;
 	display: flex;
 	flex-direction: column;
 	background-color: #f6f6f6;
@@ -35,8 +36,8 @@ body {
 #app {
 	margin: 0;
 	padding: 0;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	text-align: center;
 }
 
 .content {

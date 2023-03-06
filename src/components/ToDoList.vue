@@ -1,62 +1,94 @@
 <template>
     <div>
-			<form @submit.prevent="addTask">
-        <input type="text" v-model="newTask">
-        <button type="submit">Add task</button>
-      </form>
-        <ul>
-			<li v-for="(task, index) in tasks" :key="index">
-				<p> {{ task }}</p>
-				<button class="red" @click="deleteTask(index)">Remover</button>
-				<button class="green" @click="deleteTask(index)">Concluida</button>
+        <form @submit.prevent="addTask">
+            <input type="text" v-model="newTask.label">
+            <button type="submit">Add task</button>
+        </form>
+        <ul :class="{hidden: !tasks.length}">
+			<li v-for="(task, index) in tasks" :class="{completed: task.completed}" :key="index">
+				<p> {{ task.label }}</p>
+				<button class="green" @click="completeTask(task)">
+                    <img src="../assets/complete-icon.png" alt="Complete Task">
+                </button>
+				<button class="red" @click="deleteTask(index)">
+                    <img src="../assets/trash-icon.png" alt="Cancel Task">
+                </button>
 			</li>
 		</ul>
+        <button :class="{deactivated: !tasks.length}" @click="clearList()">
+            Clear
+        </button>
     </div>	
 </template>
   
 <script>
     export default {
         data() {
-					return {
-						tasks: [],
-						newTask: 'Try adding this task to the list'
-					}
+            return {
+                tasks: [],
+                newTask: {
+                    label: ''
+                }
+            }
         },
         methods: {
-					addTask() {
-						if(this.newTask.trim() != '') {
-							this.tasks.push(this.newTask);
-							this.newTask = '';
-						}
-						// exibir erro
-					},
-					deleteTask(index) {
-						this.tasks.splice(index, 1);
-					}
-       	}
+            addTask() {
+                if(this.newTask.label.trim() != '') {
+                    this.tasks.push({
+                        label: this.newTask.label,
+                        completed: false
+                    });
+                    this.newTask = {
+                        label: ''
+                    };
+                }
+                else {
+                    alert('Invalid Input')
+                }
+            },
+            completeTask(task) {
+                task.completed = true;
+            },
+            deleteTask(index) {
+                this.tasks.splice(index, 1);
+            },
+            updateList() {
+                // reorganizar as concluidas para o fim da lista
+            },
+            clearList() {
+                this.tasks = [];
+            }
+        }
     }
 </script>
   
   <style scoped>
+
+    div {
+        min-width: 350px;
+        width: 75%;
+        max-width: 800px;
+    }
   
     form {
         display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        width: 100%;
         margin-bottom: 50px;
-        height: 5em;
-        width: 800px;
-        min-width: 400px;
-        border-radius: 10px;
-        box-shadow: 3px 3px 10px #0000003f;
     }
 
     input {
         font-size: 2em;
-        height: 100%;
-        width: 75%;
+        height: 3em;
+        width: 72%;
         border: none;	
-        border-radius: 10px 0px 0px 10px;
+        border-radius: 10px;
         text-indent: 0.5em;
-        color: #16161627;
+        color: #16161663;
+        box-shadow: 3px 3px 10px #0000003f;
     }
 
     input:focus {
@@ -64,49 +96,89 @@
         outline: none;
     }
 
-    form button {
-        height: 100%;
-        width: 25%;
+    button {
+        height: 2em;
+        width: 150px;
         border: none;
-        color: #fff;
+        color: #333433;
         font-size: 1.5em;
-        background-color: #333433;	
-        border-radius: 0px 10px 10px 0px;
+        background-color: #F2903E;	
+        border-radius: 10px;
+        box-shadow: 3px 3px 10px #0000003f;
     }
 
-    form button:hover {
-        background-color: #262726;	
+    button:hover {
+        background-color: #333433;
+        color: #F2913D;
+        transition: .2s;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        margin-bottom: 40px;
     }
 
     li {
         display: flex;
-        margin-bottom: 20px;
-        height: 5em;
-        width: 800px;
-        min-width: 400px;
+        justify-content: space-around;
+        align-items: center;
+        height: max-content;
+        width: 100%;
+        padding: 15px;
+        background-color: #fff;
         border-radius: 10px;
         box-shadow: 3px 3px 10px #0000003f;
     }
 
     p {
+        text-align: start;
         font-size: 2em;
-        height: 100%;
+        height: 70%;
         width: 70%;
-        background-color: #fff;
-        border-radius: 10px 0px 0px 10px;
     }
 
-    button {
-        height: 100%;
-        width: 15%;
+    li button {
+        height: 50px;
+        width: 50px;
+        border-radius: 25px;
         border: none;
+        box-shadow: 3px 3px 10px #0000003f;
     }
-    .red {
-        background-color: rgb(251, 129, 129);
+
+    li img {
+        margin-top: 6px;
+        height: 60%;
+        opacity: 0.5;
     }
-    .green {
-        background-color: rgb(138, 244, 138);
-        border-radius: 0px 10px 10px 0px;
+    .green,
+    .green:hover {
+        background-color: #8af48a;
     }
+    .red,
+    .red:hover {
+        background-color: #fb8181;
+    }
+    .completed p {
+        text-decoration: line-through;
+        color: #16161663;
+        width: 95%;
+    }
+    .completed button {
+        display: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .deactivated,
+    .deactivated:hover {
+        background-color: #d6d6d6;
+        color: #838383;
+    }
+
   </style>
   

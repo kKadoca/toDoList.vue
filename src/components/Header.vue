@@ -13,5 +13,6 @@ header {
 	font: 700 2em Avenir, Helvetica, Arial, sans-serif;
 	background-color: #F2913D;
 	box-shadow: 3px 3px 10px #0000003f;
+	text-shadow: 2px 2px 5px #0000003f;
 }
 </style>
