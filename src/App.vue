@@ -3,17 +3,20 @@
 	<div class="content">
 		<ToDoList></ToDoList>
 	</div>
+	<Footer></Footer>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import ToDoList from './components/ToDoList.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-	ToDoList
+		ToDoList,
+		Footer
   }
 }
 </script>

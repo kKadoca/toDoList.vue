@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content">
         <form @submit.prevent="addTask">
             <input type="text" v-model="newTask.label">
             <button type="submit">Add task</button>
@@ -7,12 +7,14 @@
         <ul :class="{hidden: !tasks.length}">
 			<li v-for="(task, index) in tasks" :class="{completed: task.completed}" :key="index">
 				<p> {{ task.label }}</p>
-				<button class="green" @click="completeTask(task)">
-                    <img src="../assets/complete-icon.png" alt="Complete Task">
-                </button>
-				<button class="red" @click="deleteTask(index)">
-                    <img src="../assets/trash-icon.png" alt="Cancel Task">
-                </button>
+				<div>
+					<button class="green" :class="{hidden: task.completed}"   @click="completeTask(task)">
+															<img src="../assets/complete-icon.png" alt="Complete Task">
+													</button>							
+					<button class="red" @click="deleteTask(index)">
+															<img src="../assets/trash-icon.png" alt="Cancel Task">
+													</button>
+				</div>
 			</li>
 		</ul>
         <button :class="{deactivated: !tasks.length}" @click="clearList()">
@@ -63,13 +65,15 @@
 </script>
   
   <style scoped>
-
-    div {
+    .content {
         min-width: 350px;
         width: 75%;
         max-width: 800px;
+				min-height: 100%;
+				height: max-content;
+				margin-bottom: 40px;
     }
-  
+
     form {
         display: flex;
         align-items: center;
@@ -123,11 +127,11 @@
 
     li {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         height: max-content;
         width: 100%;
-        padding: 15px;
+				padding: 15px;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 3px 3px 10px #0000003f;
@@ -137,10 +141,11 @@
         text-align: start;
         font-size: 2em;
         height: 70%;
-        width: 70%;
+        width: 80%;
     }
 
     li button {
+				margin: 5px 10px;
         height: 50px;
         width: 50px;
         border-radius: 25px;
@@ -153,21 +158,21 @@
         height: 60%;
         opacity: 0.5;
     }
+
     .green,
     .green:hover {
         background-color: #8af48a;
     }
+
     .red,
     .red:hover {
         background-color: #fb8181;
     }
+
     .completed p {
         text-decoration: line-through;
         color: #16161663;
         width: 95%;
-    }
-    .completed button {
-        display: none;
     }
 
     .hidden {
